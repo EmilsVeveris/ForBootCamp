@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html style="background-color:#fafafa" xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<title>
+			EKD - Labot komponentes datus
+		</title>
+		<link rel='icon' type='image/ico' href='/favicon.ico' />
+		<script>
+			function startTime() {
+			  var today = new Date();
+			  var h = today.getHours();
+			  var m = today.getMinutes();
+			  var s = today.getSeconds();
+			  m = checkTime(m);
+			  s = checkTime(s);
+			  document.getElementById('time').innerHTML =
+			  h + ":" + m + ":" + s;
+			  var t = setTimeout(startTime, 1000);
+			}
+			function checkTime(i) {
+			  if (i < 10) {i = "0" + i};
+			  return i;
+			}
+		</script>
+	</head>
+	<body onload="startTime()">
+		<header style="padding: 10px 0px 15px 0px; background:linear-gradient(180deg, rgba(0,123,77,1) 0%, rgba(255,255,255,1) 12%, rgba(255,255,255,1) 88%, rgba(0,123,77,1) 100%);"> 
+			<div>
+				<a href="/index"><img src="/images/venta.png" width="250px" align="middle" style="padding:10px 20px 0px 30px; vertical-align: middle;"></img></a>
+				<text style="padding: 40px 20px 10px 0px; vertical-align:middle; font-size: 18pt;"><b>ELEKTRONIKAS KOMPONENŠU DATUBĀZE V1</b></text> 
+			</div>
+			<div><text style="font-size: 6pt; padding-left: 250px;">JAVA2021</text></div>
+		</header>
+		<hr style="margin-top: 2px;">
+		<nav style="background-color: #e6e6e6;margin-top: -8px;margin-bottom: -8px; padding: 8px 30px 8px 30px; ">
+			<a href="/index" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;"><b>Sākums</a> |
+			<a href="/categories" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Kategorijas</a> |
+			<a href="/contacts" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Kontakti</a> |
+			<a href="/showComponents/showAllShoppingCart" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Grozs</a> |
+			<a href="/search" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Meklēšana</a> |
+			<a href="https://itserviss.venta.lv" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">IT servisi</a> |
+			<a href="https://venta.lv" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Venta</b></a>
+			<span id="time" style="float:right;"></span> 	<!-- PAŠREIZĒJAIS LAIKS -->			
+			<text style="float:right; padding-right:5px"><b> | </text>
+			<a href="/login" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000; float:right;">Pieslēgties</a>
+			<text style="float:right;"> | </text>
+			<a href="/register" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000; float:right;">Reģistrēties</b></a>
+		</nav>
+		<hr>
+		<section style="margin-left:30px;">
+			<p><b>Labot komponentes parametrus:</b></p>
+			<form action = "#" th:action = "@{/editCapacitor/__${id}__}" method = "post" th:object = "${capacitor}">
+			<table>
+				<tr>
+					<td> Lūdzu precizējiet komponentes ID: </td>
+					<td><input type = "text" th:field = "*{componentId}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet skaitu: </td>
+					<td><input type = "text" th:field = "*{count}"> </td>
+				</tr>	
+				<tr>
+					<td> Lūdzu precizējiet aprakstu: </td>
+					<td><input type = "text" th:field = "*{description}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet saiti uz datulapu: </td>
+					<td><input type = "text" th:field = "*{datasheet}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet korpusu: </td>
+					<td><input type = "text" th:field = "*{casestyle}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet THT/SMD: </td>
+					<td><input type = "text" th:field = "*{casetype}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet atrašanās vietu: </td>
+					<td><input type = "text" th:field = "*{room}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet toleranci: </td>
+					<td><input type = "text" th:field = "*{tolerance}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet kapacitāti: </td>
+					<td><input type = "text" th:field = "*{capacitance}"> </td>	
+					<td  <label for="unit">Izvēlies mērvienību:</label>
+						<select name="unit" id="unit" th:field = "*{unit}">
+								<option value="PICO">PICO</option>
+								<option value="NANO">NANO</option>
+								<option value="MICRO">MICRO</option>
+								<option value="MILLI">MILLI</option>
+								<option value="KILO">KILO</option>
+								<option value="MEGA">MEGA</option>
+								<option value="GIGA">GIGA</option>
+						</select>
+					</td>	
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet maksimālo temperatūru: </td>
+					<td><input type = "text" th:field = "*{maxTemp}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet maksimālo spriegumu: </td>
+					<td><input type = "text" th:field = "*{maxVoltage}"> </td>		
+				</tr>
+				<tr>
+					<td> Lūdzu precizējiet kondensatora tipu: </td>
+					<td  <label for="captype"></label>
+					<select name="captype" id="captype" th:field = "*{captype}">
+							<option value="ELECTROLYTIC">ELECTROLYTIC</option>
+							<option value="CERAMIC">CERAMIC</option>
+							<option value="TANTALUM">TANTALUM</option>
+						  </select> </td>	
+				</tr>
+			</table>
+			<button type="submit"> Izlabot </button>
+			</form>
+		</section>
+		<footer>
+			<div style="background-color: white; position: fixed; left: 0; bottom: 0; width: 100%; text-align:center">
+				<hr style="margin-bottom: 0px; margin-top: 0px;">
+				<a href="https://github.com/rihardsaudze/JAVA_Kursadarbs2021">https://github.com/rihardsaudze/JAVA_Kursadarbs2021</a> &copy; 2021
+			</div>
+		</footer>
+	</body>
+</html>

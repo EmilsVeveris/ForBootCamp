@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html style="background-color:#fafafa" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	<head>
+		<title>
+			EKD - Sākums
+		</title>
+		<link rel='icon' type='image/ico' href='/favicon.ico' />
+		<script>
+			function startTime() {
+			  var today = new Date();
+			  var h = today.getHours();
+			  var m = today.getMinutes();
+			  var s = today.getSeconds();
+			  m = checkTime(m);
+			  s = checkTime(s);
+			  document.getElementById('time').innerHTML =
+			  h + ":" + m + ":" + s;
+			  var t = setTimeout(startTime, 1000);
+			}
+			function checkTime(i) {
+			  if (i < 10) {i = "0" + i};
+			  return i;
+			}
+		</script>
+	</head>
+	<body onload="startTime()">
+		<header style="padding: 10px 0px 15px 0px; background:linear-gradient(180deg, rgba(0,123,77,1) 0%, rgba(255,255,255,1) 12%, rgba(255,255,255,1) 88%, rgba(0,123,77,1) 100%);"> 
+			<div>
+				<a href="/index"><img src="/images/venta.png" width="250px" align="middle" style="padding:10px 20px 0px 30px; vertical-align: middle;"></img></a>
+				<text style="padding: 40px 20px 10px 0px; vertical-align:middle; font-size: 18pt;"><b>ELEKTRONIKAS KOMPONENŠU DATUBĀZE V1</b></text> 
+			</div>
+			<div><text style="font-size: 6pt; padding-left: 250px;">JAVA2021</text></div>
+		</header>
+		<hr style="margin-top: 2px;">
+		<nav style="background-color: #e6e6e6;margin-top: -8px;margin-bottom: -8px; padding: 8px 30px 8px 30px; ">
+			<a href="/index" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;"><b>Sākums</a> |
+			<a href="/categories" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Kategorijas</a> |
+			<a href="/contacts" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Kontakti</a> |
+			<a href="/showComponents/showAllShoppingCart" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Grozs</a> |
+			<a href="/search" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Meklēšana</a> |
+			<a href="https://itserviss.venta.lv" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">IT servisi</a> |
+			<a href="https://venta.lv" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000;">Venta</b></a>
+			<span id="time" style="float:right;"></span> 	<!-- PAŠREIZĒJAIS LAIKS -->			
+			<text style="float:right; padding-right:5px"><b> | </text>
+			<a href="/login" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000; float:right;">Pieslēgties</a>
+			<text style="float:right;"> | </text>
+			<a href="/register" style="padding-right:5px; padding-left:5px; text-decoration: none; color: #000; float:right;">Reģistrēties</b></a>
+		</nav>
+		<hr>
+		<section style="margin-left:30px; margin-top:20px; margin-bottom: 50px;">
+		<p><b>Visas komponentes:</b></p>
+		<p><b>Spoles:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>Induktivitāte<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+				<td></td>
+			</tr>
+			<tr th:each="induc : ${induc}">
+				<td th:text="${induc.getComponentId()}"></td>
+				<td><span th:text="${induc.getInductance()}"></span>
+					<th:block th:switch="${induc.getUnit()}">
+						<span th:case="${T(lv.venta.eib.enums.valUnits).PICO}"> pH</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).NANO}"> nH</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MICRO}"> uH</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MILLI}"> mH</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).NONE}"> H</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).KILO}"> KH</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MEGA}"> MH</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).GIGA}"> GH</span>
+						<span th:case="*"> ERROR</span>
+					</th:block>
+				</td>
+				<td th:text="${induc.getCasetype()}"></td>
+				<td th:text="${induc.getCasestyle()}"></td>
+				<td th:text="${induc.getCount()}"></td>
+				<td th:text="${induc.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showInductor/{id}(id=${induc.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		<p><b>Integrālās shēmas:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>Apraksts<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+				<td></td>
+			</tr>
+			<tr th:each="ic : ${ic}">
+				<td th:text="${ic.getComponentId()}"></td>
+				<td th:text="${ic.getDescription()}"></td>
+				<td th:text="${ic.getCasetype()}"></td>
+				<td th:text="${ic.getCasestyle()}"></td>
+				<td th:text="${ic.getCount()}"></td>
+				<td th:text="${ic.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showIc/{id}(id=${ic.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		<p><b>Mikrokontrolieri:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>Apraksts<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+			</tr>
+			<tr th:each="mc : ${mc}">
+				<td th:text="${mc.getComponentId()}"></td>
+				<td th:text="${mc.getDescription()}"></td>
+				<td th:text="${mc.getCasetype()}"></td>
+				<td th:text="${mc.getCasestyle()}"></td>
+				<td th:text="${mc.getCount()}"></td>
+				<td th:text="${mc.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showMicrocontroller/{id}(id=${mc.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		<p><b>MOSFET tranzistori:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>MOSFET tips<hr></td>
+				<td><i>Gate</i> spriegums<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+			</tr>
+			<tr th:each="mosfet : ${mosfet}">
+				<td th:text="${mosfet.getComponentId()}"></td>
+				<td th:text="${mosfet.getMosfetType()}"></td>
+				<td th:text="${mosfet.getGateVoltage()}"></td>
+				<td th:text="${mosfet.getCasetype()}"></td>
+				<td th:text="${mosfet.getCasestyle()}"></td>
+				<td th:text="${mosfet.getCount()}"></td>
+				<td th:text="${mosfet.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showMosfet/{id}(id=${mosfet.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		<p><b>BJT tranzistori:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>BJT tips<hr></td>
+				<td>hfe pastiprinājums<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+			</tr>
+			<tr th:each="bjt : ${bjt}">
+				<td th:text="${bjt.getComponentId()}"></td>
+				<td th:text="${bjt.getBjtType()}"></td>
+				<td th:text="${bjt.getHfeGain()}"></td>
+				<td th:text="${bjt.getCasetype()}"></td>
+				<td th:text="${bjt.getCasestyle()}"></td>
+				<td th:text="${bjt.getCount()}"></td>
+				<td th:text="${bjt.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showBjt/{id}(id=${bjt.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		<p><b>Rezistori:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>Pretestība<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+			</tr>
+			<tr th:each="res : ${res}">
+				<td th:text="${res.getComponentId()}"></td>
+				<td><span th:text="${res.getResistance()}"></span>
+					<th:block th:switch="${res.getUnit()}">
+						<span th:case="${T(lv.venta.eib.enums.valUnits).PICO}"> pΩ</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).NANO}"> nΩ</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MICRO}"> uΩ</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MILLI}"> mΩ</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).NONE}"> Ω</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).KILO}"> KΩ</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MEGA}"> MΩ</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).GIGA}"> GΩ</span>
+						<span th:case="*"> ERROR</span>
+					</th:block>
+				</td>
+				<td th:text="${res.getCasetype()}"></td>
+				<td th:text="${res.getCasestyle()}"></td>
+				<td th:text="${res.getCount()}"></td>
+				<td th:text="${res.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showResistor/{id}(id=${res.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		<p><b>Kondensatori:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>Kapacitāte<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+			</tr>
+			<tr th:each="cap : ${cap}">
+				<td th:text="${cap.getComponentId()}"></td>
+				<td><span th:text="${cap.getCapacitance()}"></span>
+					<th:block th:switch="${cap.getUnit()}">
+						<span th:case="${T(lv.venta.eib.enums.valUnits).PICO}"> pF</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).NANO}"> nF</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MICRO}"> uF</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MILLI}"> mF</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).NONE}"> F</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).KILO}"> KF</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).MEGA}"> MF</span>
+						<span th:case="${T(lv.venta.eib.enums.valUnits).GIGA}"> GF</span>
+						<span th:case="*"> ERROR</span>
+					</th:block>
+				</td>
+				<td th:text="${cap.getCasetype()}"></td>
+				<td th:text="${cap.getCasestyle()}"></td>
+				<td th:text="${cap.getCount()}"></td>
+				<td th:text="${cap.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showCapacitor/{id}(id=${cap.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		<p><b>Sensori:</b></p>
+		<table style="margin-left: 30px; width: 60%;">
+			<tr>
+				<td>Modeļa ID<hr></td>
+				<td>Sensora tips<hr></td>
+				<td>Korpusa tips<hr></td>
+				<td>Korpuss<hr></td>
+				<td>VDD<hr></td>
+				<td>Skaits<hr></td>
+				<td>Telpa<hr></td>
+			</tr>
+			<tr th:each="sen : ${sen}">
+				<td th:text="${sen.getComponentId()}"></td>
+				<td th:text="${sen.getType()}"></td>
+				<td th:text="${sen.getCasetype()}"></td>
+				<td th:text="${sen.getCasestyle()}"></td>
+				<td th:text="${sen.getSupplyVoltage()}"></td>
+				<td th:text="${sen.getCount()}"></td>
+				<td th:text="${sen.getRoom()}"></td>
+				<td>
+					<button><a th:href="@{/component/showSensor/{id}(id=${sen.getCid()})}">Apskatīt</a></button>
+				</td>
+			</tr>
+		</table>
+		</section>
+		<footer>
+			<div style="background-color: white; position: fixed; left: 0; bottom: 0; width: 100%; text-align:center">
+				<hr style="margin-bottom: 0px; margin-top: 0px;">
+				<a href="https://github.com/rihardsaudze/JAVA_Kursadarbs2021">https://github.com/rihardsaudze/JAVA_Kursadarbs2021</a> &copy; 2021
+			</div>
+		</footer>
+	</body>
+</html>
